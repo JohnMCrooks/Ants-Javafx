@@ -9,6 +9,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ public class Main extends Application {
     static final int HEIGHT = 600;
     static  final int ANT_COUNT = 100;
     static ArrayList<Ant> ants = new ArrayList<Ant>();
+    static Color black = Color.BLACK;
+    static Color red = Color.RED;
     static long lastTimeStamp = 0;     //needed for calculating the FPS of the program
 
     static void createAnts(){
@@ -34,9 +37,22 @@ public class Main extends Application {
     static void drawAnts(GraphicsContext context){  //this will draw the points.
         context.clearRect(0,0, WIDTH, HEIGHT);  //clears the scene
         for (Ant ant: ants){
-            context.setFill(Color.BLACK);
+            aggravateAnt();
             context.fillOval(ant.x, ant.y, 5, 5);
+        }
+    }
 
+    static void aggravateAnt(){
+        for(Ant ant : ants ){
+            for (Ant ant2: ants){
+                int diffX;
+                int diffY;
+                if (Math.abs(ant.x-ant2.x)<10  || Math.abs(ant.y-ant2.y)<10){
+                    ant2.setColor(red);
+                } else{
+                    ant2.setColor(black);
+                }
+            }
         }
     }
 
@@ -82,6 +98,7 @@ public class Main extends Application {
             public void handle(long now) {
                 moveAnts();
                 drawAnts(context);
+
                 fpsLabel.setText(fps(now) + "");
                 lastTimeStamp = now;
             }
