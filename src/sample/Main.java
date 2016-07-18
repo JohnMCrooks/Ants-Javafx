@@ -37,28 +37,30 @@ public class Main extends Application {
     static void drawAnts(GraphicsContext context){  //this will draw the points.
         context.clearRect(0,0, WIDTH, HEIGHT);  //clears the scene
         for (Ant ant: ants){
-            aggravateAnt();
             context.fillOval(ant.x, ant.y, 5, 5);
+            context.setFill(ant.color);
         }
     }
 
-    static void aggravateAnt(){
-        for(Ant ant : ants ){
-            for (Ant ant2: ants){
-                int diffX;
-                int diffY;
-                if (Math.abs(ant.x-ant2.x)<10  || Math.abs(ant.y-ant2.y)<10){
-                    ant2.setColor(red);
-                } else{
-                    ant2.setColor(black);
+    static void aggravateAnt(Ant ant){
+        int count = 0;
+        for(Ant a : ants ){
+                if (Math.abs(ant.x-a.x)<10  && Math.abs(ant.y-a.y)<10){
+                    count++;
                 }
+            if (count > 1){
+                    ant.setColor(red);
+                }else{
+                ant.setColor(black);
             }
         }
     }
 
+
     static Ant moveAnt(Ant ant){
         ant.x += Math.random() * 2-1;
         ant.y += Math.random() * 2-1;
+        aggravateAnt(ant);
         try {
             Thread.sleep(1);
         } catch (InterruptedException e) {

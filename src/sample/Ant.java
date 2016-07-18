@@ -27,4 +27,12 @@ public class Ant {
         this.color = color;
     }
 
+    @Override
+    public String toString() {
+        return "Ant{" +
+                "x=" + x +
+                ", y=" + y +
+                ", color=" + color +
+                '}';
+    }
 }
